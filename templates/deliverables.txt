@@ -1,0 +1,19 @@
+# deliverables.txt: what a finished production folder must hold (archive.py build --require deliverables.txt).
+# One glob per line, relative to the production folder. Delete the lines a film does not have.
+production.yaml
+story-bible.md
+screenplay.md
+shotlist.yaml
+style-lock.yaml
+continuity.yaml
+score-brief.md
+qa.yaml
+lessons.md
+prompts/*.md
+art/film/*
+audio/score*
+audio/*mix*.wav
+film/*_4K.mp4
+film/*_1080p.mp4
+film/*_phone.mp4
+film/covers/*

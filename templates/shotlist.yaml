@@ -1,0 +1,38 @@
+# shotlist.yaml: the film as a list of shots. Validated by shotlist.py, priced by budget.py, cut by beatmap.py, and
+# carried out in post as written. Every field is explained in forge-story/references/shotlist-schema.md.
+title: <Title>
+fps: 24
+runtime_target: 60               # seconds; validate warns past +-10%
+narration_wps: 2.4               # on-screen handwritten lines; spoken narration can go to about 2.8
+score_offset: 0.0                # where the film's first frame sits in the score (set by retime)
+characters: [hero, companion]    # ids; their handles, anchors and scale locks live in continuity.yaml
+
+scenes:
+  - {id: S1, name: <scene name>, mood: <one feeling>}
+
+assets:                          # everything billable that is not a shot
+  - {id: sheet_hero, kind: sheet, character: hero}
+  - {id: sheet_companion, kind: sheet, character: companion}
+  - {id: plate_main, kind: plate, note: "the empty location, reused by every shot set there"}
+  - {id: proof_1, kind: proof, note: "the frame that must make people feel it; painted before the rest"}
+  - {id: score, kind: music, seconds: 64, takes: 1}
+
+shots:
+  - id: s01                      # sNN, sNNa for an inserted shot
+    scene: S1
+    dur: 5.0                     # provisional until retime; then frame-exact
+    kind: painting               # painting | video | code | reuse
+    framing: wide                # extreme-wide, wide, medium-wide, medium, medium-close, close, extreme-close, insert, two-shot, over-shoulder, pov, aerial
+    beat: <what happens, in one line a stranger can see>
+    characters: [hero]
+    refs: [sheet_hero, plate_main]   # every character's sheet, every prompt
+    cut_on: phrase               # phrase | downbeat | beat | hit | silence | accent | free
+    # pin: 24.0                  # the score second this shot must start on (a story hit in the music brief)
+    # narration: <a handwritten line>
+    # text_area: upper-left sky  # keep this part of the painting quiet for words
+    # poses: 2                   # a painted beat told in key poses that snap (counts as N paintings)
+    # priority: 1                # 1 must, 2 should, 3 nice to have (budget.py drops 3 before 2)
+    # look: frozen               # a second look from the style lock
+    status: planned              # planned, prompted, painted, accepted, fixed, repaint, rendered, cut
+    motion: none                 # forge-motion fills this: tin, tout, life, ashc, emberc, fog, fogc, flick, fire, shim, sweep,
+                                 # shake, bolts, crack, threads, words, sand, title, crop

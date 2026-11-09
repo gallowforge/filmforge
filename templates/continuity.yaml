@@ -1,0 +1,43 @@
+# continuity.yaml: the continuity ledger. ledger.py checks it against the shot list, the prompts and the paintings.
+film: <Title>
+names: []                        # character names: never written in a prompt (models paint names as text)
+
+characters:
+  hero:
+    handle: <the visual handle every prompt uses, e.g. "the girl in the red knitted hood">
+    anchor: <the full look, pasted word for word wherever the character appears>
+    # scale: <a ratio to something always nearby: "its wingspan equals a child's open hand, never smaller than a palm">
+
+props:
+  # lantern:
+  #   anchor: <exact words>
+  #   holder: hero               # required in every shot the holder is in, from..until
+  #   from: s02
+  #   until: s04
+
+states:
+  # - id: soot
+  #   who: hero
+  #   anchor: <exact words>
+  #   from: s02
+  #   until: s06
+
+colour:
+  tolerance: 30                  # delta E from the scene's colour script
+  neighbour_jump: 24             # palette jump between neighbours in one scene
+  exposure_stops: 1.5            # exposure jump between neighbours in one scene
+  expected_jumps: []             # shots allowed to change light (time cuts)
+  script:
+    S1: ["#000000"]              # 3 to 6 swatches per scene
+  forbid: []
+  # - id: no-gold
+  #   name: no warm gold before the lamp is lit
+  #   hue: [38, 58]
+  #   min_sat: 0.3
+  #   min_val: 0.2
+  #   until: s05                 # forbidden before s05
+  #   max_fraction: 0.02
+  #   prompt: Absolutely no warm gold light anywhere in the frame.    # must appear in every prompt the rule covers
+
+shots:
+  s01: {characters: [hero], props: [], states: []}

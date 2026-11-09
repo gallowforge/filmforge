@@ -1,0 +1,36 @@
+# production.yaml: the one state file of a production. forge-director reads and updates it; production.py checks it.
+# Paths under files: are relative to this file. Stages: brief, story, style, score, paint, motion, sound, deliver, retro.
+title: <Title>
+logline: "<one sentence: who wants what, and what it costs them>"
+format: {width: 3840, height: 2160, fps: 24, aspect: "16:9", runtime_target: 60}
+
+budget:
+  credits_available: 70          # the ceiling for this film, set by whoever pays
+  reserve_pct: 5                 # never planned into
+  approved_by: <who>             # the one question asked once per film: the ceiling
+  spent: []                      # production.py spend appends {stage, item, credits, note}
+
+files:
+  bible: story-bible.md
+  screenplay: screenplay.md
+  shotlist: shotlist.yaml
+  style_lock: style-lock.yaml
+  ledger: continuity.yaml
+  score_brief: score-brief.md
+  score: audio/score.mp3
+  beatmap: score/beatmap.json
+  prompts: prompts
+  paintings: art/film
+  qa: qa.yaml
+  preview: film/preview_1080p.mp4
+  mix: audio/full_mix.wav
+  deliverables: film
+  archive: .
+  lessons: lessons.md
+
+deliverables: [master-4k, posting-1080p, phone, covers]   # see delivery-checklist.md for the full matrix
+
+stage: brief
+stages: {}                       # production.py advance writes {status: passed}; signoff writes {signoff: {by, note}}
+
+decisions: []                    # locked decisions, one line each; never re-litigated without new evidence

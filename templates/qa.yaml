@@ -1,0 +1,26 @@
+# qa.yaml: forge-frame-qa's verdicts. One entry per painting (and per sheet and proof frame).
+production: <Title>
+rubric: forge-qa-rubric-1
+frames:
+  - shot: s01
+    file: art/film/s01_<name>.png
+    checked: [full frame, zoom 2x2 at 100%, ledger palette]
+    scores: {identity: 2, anatomy: 2, scale: 2, style: 2, colour: 2, continuity: 2, story: 2, composition: 2, clean: 2}
+    total: 18
+    max: 18
+    measured: {}                 # numbers from the tools: forbidden-colour %, stops, delta E, pixel sizes
+    verdict: accept              # accept | fix | repaint | pending
+    notes: <what was seen, in plain words>
+    # fix:
+    #   problem: <what>
+    #   op: recolour               # recolour | exposure | blue | crop | patch, done in post
+    #   params: {}                 # the exact settings, so the fix can be run again
+    #   why_not_repaint: <one line>
+    #   verify: <the check that proves it worked>
+    #   done: false
+    # repaint:
+    #   cause: <the prompt or reference fault behind it>
+    #   prompt_changes: [<each change>]
+    #   credits: 2.75
+    #   corrected_prompt: |
+    #     <the full prompt, ready to paste>

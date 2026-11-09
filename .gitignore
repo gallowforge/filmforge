@@ -1,0 +1,17 @@
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+# no generated audio either
+*.wav
+*.mp3
+*.m4a
+*.flac
+# no generated media in this repository: the method is the product
+*.mp4
+*.mov
+*.png
+*.jpg
+*.jpeg
+*.webp

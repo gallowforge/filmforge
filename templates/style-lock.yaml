@@ -1,0 +1,33 @@
+# style-lock.yaml: one model, one setting, one look (or two, when the drawing itself carries the story).
+# The look text opens every prompt word for word; the avoid text closes it word for word. ledger.py prompts checks both.
+name: <Title> house style
+model:
+  name: gpt-image-2.5
+  quality: high
+  size: 2K
+  aspect: "16:9"
+  model_id: gpt-image-2.5-high-2k          # the name in config/prices.yaml
+
+looks:
+  main: >-
+    <A frame from a ... film, in exactly the style of the attached sheets: medium, line, colour, texture, light.>
+  # second: >-
+  #   <the same style, but ... (only when a second world needs its own hand)>
+default_look: main
+
+avoid: >-
+  Avoid: 3D render, photorealism, text, letters, watermark, extra fingers, distorted faces.
+
+grammar: [LOOK, REFERENCES, SHOT, SUBJECT AND SCALE, MOMENT, SETTING, LIGHT, COLOUR, TEXT AREA, CONTINUITY, LOCKS, AVOID]
+
+references:                              # what each attachment governs (pasted into the REFERENCES slot)
+  sheet_hero: the attached sheet of <handle> governs <face, costume, proportions>
+  plate_main: the attached plate governs <the location> only
+
+lens: >-
+  <how the camera sees: lens feel, height, what never happens (no fisheye, no tilt)>
+
+palette:                                 # named swatches; the colour script per scene lives in continuity.yaml
+  base: ["#000000"]
+
+max_chars: 3500

@@ -1,0 +1,76 @@
+# prices.yaml: what every generation costs, in Higgsfield credits.
+#
+# `live: true` prices were read from Higgsfield's live price list. `live: false` prices are estimates from
+# earlier quotes or blog posts; budget.py marks them with a "~" so nobody spends against a guess.
+# Prices change. Re-check the live list before a production's first spend and update this file.
+#
+# per: image   -> credits for one image
+# per: second  -> credits per second of output (music, voice, video)
+# per: clip    -> credits for one clip of `seconds` length; longer shots are billed in whole clips
+
+currency: credits
+
+models:
+  gpt-image-2.5-high-2k:
+    per: image
+    credits: 2.75
+    live: true
+    use: paintings, character sheets, set plates (the house style lock)
+  gpt-image-2.5-medium-2k:
+    per: image
+    credits: 1.0
+    live: false
+    use: picture-book pages and cheap drafts
+  elevenlabs-music-v2.5:
+    per: second
+    credits: 0.145
+    live: true
+    use: the score (instrumental)
+  kling-4.0-1080p:
+    per: clip
+    seconds: 5
+    credits: 16.25
+    live: true
+    use: real motion between painted keyframes
+  seedance-2.5-1080p:
+    per: second
+    credits: 16.0
+    live: false
+    use: animated shots, final takes
+  seedance-2.5-draft-480p:
+    per: second
+    credits: 3.0
+    live: false
+    use: cheap motion drafts; finalise only the approved take
+  code:
+    per: image
+    credits: 0
+    live: true
+    use: anything made in code on the GPU (titles, effects, grade, sound design)
+
+# which model each kind of item uses unless the item names one
+defaults:
+  painting: gpt-image-2.5-high-2k
+  sheet: gpt-image-2.5-high-2k
+  plate: gpt-image-2.5-high-2k
+  proof: gpt-image-2.5-high-2k
+  music: elevenlabs-music-v2.5
+  video: kling-4.0-1080p
+  code: code
+  reuse: code
+
+# how much to hold back
+policy:
+  reserve_pct: 5          # never plan into the last 5% of the credits
+  retake:                 # expected extra generations, as a fraction of the planned ones
+    painting: 0.3         # about one repaint in three (the picture book's figure)
+    sheet: 0.5
+    plate: 0.3
+    proof: 0.5
+    video: 0.5
+    music: 0.0            # takes are planned explicitly (takes: 2) instead
+  min_retake: 0.15        # the lowest retake buffer the fit plan may fall back to
+
+# monthly allowances, for "what fits" questions
+plans:
+  basic: 70
