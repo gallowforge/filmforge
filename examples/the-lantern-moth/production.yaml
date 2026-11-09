@@ -1,0 +1,50 @@
+# The Lantern Moth: production state. A snapshot in the middle of the paint stage, built to exercise every check:
+# three planted faults (s02 gold leak, s03 moth too small, s04 underexposed) and one prompt missing its scale lock.
+title: The Lantern Moth
+logline: A lighthouse girl gives away the only warm thing she has, a moth made of embers, to bring a lost boat home.
+format: {width: 3840, height: 2160, fps: 24, aspect: "16:9", runtime_target: 36}
+
+budget:
+  credits_available: 70
+  reserve_pct: 5
+  approved_by: the producer
+  spent:
+    - {stage: style, item: sheet_girl, credits: 2.75}
+    - {stage: style, item: sheet_girl retake, credits: 2.75, note: "hood drifted orange; repainted with the hood colour as a lock"}
+    - {stage: style, item: sheet_moth, credits: 2.75}
+    - {stage: style, item: plate_headland, credits: 2.75}
+    - {stage: score, item: score 40 s, credits: 5.8}
+    - {stage: paint, item: s01-s04 batch 1, credits: 11.0, forced: "demo: painted before the prompt lint ran, to show what the lint prevents"}
+    - {stage: paint, item: s05-s06 batch 2, credits: 5.5}
+
+files:
+  bible: story-bible.md
+  screenplay: screenplay.md
+  shotlist: shotlist.yaml
+  style_lock: style-lock.yaml
+  ledger: continuity.yaml
+  score_brief: score-brief.md
+  score: score/score.wav
+  beatmap: score/beatmap.json
+  prompts: prompts
+  paintings: paintings
+  qa: qa.yaml
+  preview: out/preview_1080p.mp4
+  mix: out/mix.wav
+  deliverables: deliver
+  archive: .
+  lessons: lessons.md
+
+deliverables: [master-4k, posting-1080p, phone, covers]
+
+stage: paint
+stages:
+  brief: {status: passed}
+  story: {status: passed}
+  style: {status: passed, signoff: {by: director, note: "both sheets and the plate read at 100%: faces, hood colour, moth material, headland"}}
+  score: {status: passed}
+
+decisions:
+  - Painted holds only; the moth's light, the snow and the beam's sweep are made in post.
+  - One cue, 40 s; the held breath at 23.5 s is where she lets go, the lamp lights on the hit at 24.0 s.
+  - Two handwritten narration lines, no voice.

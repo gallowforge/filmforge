@@ -1,0 +1,124 @@
+# The Lantern Moth: shot list. Durations were provisional (6 s each) until the score was measured;
+# `shotlist.py retime` then moved every cut onto the music (the `cut:` field says what each cut landed on).
+title: The Lantern Moth
+fps: 24
+runtime_target: 36
+narration_wps: 2.4              # handwritten lines: keep under 2.4 words a second
+score_offset: 0.0               # the film's first frame sits at 0.0 s of the score
+characters: [girl, moth]
+
+scenes:
+  - {id: S1, name: The Dark, mood: cold and alone}
+  - {id: S2, name: The Choice, mood: warmth held close, then the pull of the sea}
+  - {id: S3, name: The Light, mood: release and wonder}
+
+assets:
+  - {id: sheet_girl, kind: sheet, character: girl, note: "turnaround, face and hand studies, scale bar with the moth"}
+  - {id: sheet_moth, kind: sheet, character: moth, note: "material sheet: embers, not fur or glass; wings open and closed"}
+  - {id: plate_headland, kind: plate, note: "the empty headland and lighthouse at night: reused by s01, s05, s06"}
+  - {id: score, kind: music, seconds: 40, note: "36 s plus a 4 s tail, one cue"}
+
+shots:
+  - id: s01
+    scene: S1
+    dur: 6
+    cut: hit
+    kind: painting
+    framing: extreme-wide
+    beat: The dead lighthouse on its black headland; far out a tiny red sail pitches in the swell
+    characters: []
+    refs: [plate_headland]
+    cut_on: downbeat
+    narration: the lamp had gone out.
+    text_area: upper-left sky
+    status: accepted
+    motion:
+      tin: [fade, 1.5]
+      life: SNOW(700)
+      fog: [0.3, 1200, 2160, 0.04]
+      fogc: [0.45, 0.5, 0.55]
+      ashc: [0.8, 0.84, 0.9]
+
+  - id: s02
+    scene: S2
+    dur: 6
+    cut: phrase
+    kind: painting
+    framing: medium
+    beat: Her last match dies at the cold wick; in the empty lantern at her feet, the ember moth begins to glow
+    characters: [girl, moth]
+    refs: [sheet_girl, sheet_moth]
+    cut_on: phrase
+    status: painted
+    motion:
+      life: EMB(60, 0.6)
+      flick: 0.12
+      fire: [2400, 1700, 900]
+      ashc: [0.8, 0.84, 0.9]
+
+  - id: s03
+    scene: S2
+    dur: 6
+    cut: downbeat
+    kind: painting
+    framing: close
+    beat: The moth on her fingertip lights her face; she cups it to her chest and smiles for the first time
+    characters: [girl, moth]
+    refs: [sheet_girl, sheet_moth]
+    cut_on: downbeat
+    status: repaint
+    motion:
+      flick: 0.2
+      fire: [1920, 1300, 700]
+      life: "embers(40, src=(1920, 1300), spread=120, rise=60, life=2.5)"
+
+  - id: s04
+    scene: S2
+    dur: 6
+    cut: silence
+    kind: painting
+    framing: medium
+    beat: Through the salt-crusted glass the red sail is almost on the rocks; she opens her hands toward the lamp
+    characters: [girl, moth]
+    refs: [sheet_girl, sheet_moth]
+    cut_on: hit
+    status: fixed
+    motion:
+      life: SNOW(300, (80, 60))
+      flick: 0.1
+      fire: [1500, 1400, 800]
+
+  - id: s05
+    scene: S3
+    dur: 6
+    cut: downbeat
+    kind: painting
+    framing: extreme-wide
+    beat: On the hit the beam blazes gold across the sea and the boat turns away from the rocks
+    characters: []
+    refs: [plate_headland]
+    cut_on: downbeat
+    status: accepted
+    motion:
+      tin: [white, 0.4]
+      sweep: [3.0, 520, 0.35, 0]
+      life: GOLD
+      shake: [0.0, 0.4, 10]
+
+  - id: s06
+    scene: S3
+    dur: 6.1667
+    cut: end
+    kind: painting
+    framing: extreme-wide
+    beat: Dawn, the same frame as s01; the lamp warm, the boat safe, a hundred ember moths on the lamp glass
+    characters: [moth]
+    refs: [plate_headland, sheet_moth]
+    narration: some lights are only kept by giving them away.
+    text_area: upper-left sky
+    status: accepted
+    motion:
+      life: STARS(120)
+      fog: [0.2, 1400, 2160, 0.02]
+      tout: [fade, 2.0]
+      note: title in code over the last two seconds

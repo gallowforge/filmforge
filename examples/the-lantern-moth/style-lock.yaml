@@ -1,0 +1,37 @@
+# The Lantern Moth: the style lock. One model, one setting, one look, pasted word for word into every prompt.
+name: The Lantern Moth house style
+model:
+  name: gpt-image-2.5
+  quality: high
+  size: 2K
+  aspect: "16:9"
+  model_id: gpt-image-2.5-high-2k      # the price table's name for this setting
+
+looks:
+  storybook: >-
+    A frame from a hand-painted storybook film, in exactly the style of the attached sheets: soft gouache and
+    watercolour on rough paper, confident brush-ink outlines, visible paper grain, deep night colours, light that
+    comes only from lamps, embers and the sky.
+default_look: storybook
+
+avoid: >-
+  Avoid: 3D render, CGI, photorealism, anime, plastic, text, letters, signatures, watermark, extra fingers,
+  distorted faces.
+
+# the order of every prompt (forge-painter writes in this order; ledger.py checks the opening and the tail)
+grammar: [LOOK, REFERENCES, SHOT, SUBJECT AND SCALE, MOMENT, SETTING, LIGHT, COLOUR, TEXT AREA, CONTINUITY, LOCKS, AVOID]
+
+references:
+  sheet_girl: the attached sheet of the girl in the red knitted hood governs her face, hood, coat and proportions
+  sheet_moth: the attached sheet of the ember moth governs its material, wing shape and size
+  plate_headland: the attached plate governs the headland, the lighthouse and the sea, nothing else
+
+lens: >-
+  Framed like a 35 mm lens at eye height unless the shot says otherwise; no fisheye, no tilt.
+
+palette:
+  night: ["#141b26", "#2a3546", "#4d5d70", "#8d9aa8"]
+  ember: ["#e8743b", "#ffb36b"]
+  dawn: ["#f2c46d", "#e9a07a", "#6f8fa8"]
+
+max_chars: 3500

@@ -1,0 +1,113 @@
+# The Lantern Moth: frame QA (forge-frame-qa). Every painting read at full size, scored on the rubric
+# (templates/qa-rubric.md: 9 criteria, 0 to 2 each, 18 points), then a verdict: accept, fix in post, or repaint.
+# An example of the decision format: the example is text only, so the files named here are not in the repository
+# and the measured values are illustrative.
+production: The Lantern Moth
+rubric: forge-qa-rubric-1
+frames:
+  - shot: s01
+    file: paintings/s01_dead_lighthouse.jpg
+    checked: [full frame, ledger palette]
+    scores: {identity: 2, anatomy: 2, scale: 2, style: 2, colour: 2, continuity: 2, story: 2, composition: 2, clean: 2}
+    total: 18
+    max: 18
+    measured: {no_gold_pct: 0.0, script_dE: 3}
+    verdict: accept
+    notes: >-
+      Lamp dead, the moon behind broken cloud, the red sail on the moon's road on the water; it reads at thumbnail size.
+      The sea in the lower third stays quiet for the handwritten line.
+
+  - shot: s02
+    file: paintings/s02_last_match.jpg
+    checked: [full frame, ledger palette]
+    scores: {identity: 1, anatomy: 2, scale: 2, style: 2, colour: 0, continuity: 2, story: 2, composition: 2, clean: 2}
+    total: 15
+    max: 18
+    measured: {no_gold_pct: 2.9, script_dE: 5}
+    verdict: fix
+    notes: >-
+      A warm gold glow blooms from the match across the window and her hood (2.9% of the frame; the no-gold rule
+      allows 2% before s05), and it turns the red hood orange. Lantern and its ember glow are present.
+    fix:
+      problem: gold glow from the match, hue 38 to 58, tinting the hood
+      op: recolour
+      params: {box: [560, 200, 1240, 820], hue_band: [38, 58], new_hue: 22, sat: 0.8}
+      why_not_repaint: one hue band in one box; a recolour moves it to the moth's ember orange in minutes, for free
+      verify: ledger.py palette shows no-gold under 2.0% on s02_last_match_g.jpg, and the hood reads red at 100%
+      done: false
+
+  - shot: s03
+    file: paintings/s03_moth_on_finger.jpg
+    checked: [full frame, zoom box 760,400,1020,620 at 100%, ledger palette, prompt lint]
+    scores: {identity: 2, anatomy: 1, scale: 0, style: 2, colour: 2, continuity: 1, story: 1, composition: 2, clean: 2}
+    total: 13
+    max: 18
+    measured: {moth_wingspan_px: 17, hand_width_px: 56, required: about a palm, 60 px or more at this framing}
+    verdict: repaint
+    notes: >-
+      At 100% the moth is a 17-pixel spark above her raised hand: under a third of its locked size, so the shot's
+      subject does not read in two seconds. The lantern the ledger carries from s02 to s04 is out of frame. Cause:
+      the prompt left out the moth's scale lock (ledger.py prompts flags it). No fix in post can enlarge a painted
+      subject convincingly.
+    repaint:
+      cause: the moth's scale lock was missing from the prompt
+      prompt_changes:
+        - add the moth's scale lock word for word
+        - make the moth the second-largest shape in the frame, close to camera, its wings spanning her palm
+        - keep the brass lantern visible at the lower right
+      credits: 2.75
+      corrected_prompt: |
+        A frame from a hand-painted storybook film, in exactly the style of the attached sheets: soft gouache and watercolour on rough paper, confident brush-ink outlines, visible paper grain, deep night colours, light that comes only from lamps, embers and the sky.
+
+        References: the attached sheet of the girl in the red knitted hood governs her face, hood, coat and proportions; the attached sheet of the ember moth governs its material, wing shape and size. Relight both to this scene; do not copy the sheets' flat light.
+
+        A close shot at her eye height, her face on the left third. The girl in the red knitted hood, a nine-year-old girl, small for her age, in a red knitted hood, an oversized rust oilskin coat to her shins and black rubber boots, holds her open palm up close to the camera on the right third. On her palm sits the ember moth, a moth made of glowing embers, wings like cooling coals veined with thin gold, two black bead eyes; its wingspan equals a child's open hand, never smaller than a palm and never larger than a face. The moth is the second-largest shape in the frame after her face. A smudge of soot on her left cheek. At the lower right, a small brass hand-lantern with one cracked green pane stands on the floor.
+
+        The moment: she has just cupped her hands toward her chest and is smiling for the first time in the film, eyes on the moth.
+
+        Light: the moth is the key light, warm orange from below and in front; a cold blue-grey rim from the window behind her.
+
+        Colours: slate and ink in the room, ember orange on her face.
+
+        Absolutely no warm gold light anywhere in the frame.
+
+        Avoid: 3D render, CGI, photorealism, anime, plastic, text, letters, signatures, watermark, extra fingers, distorted faces.
+
+  - shot: s04
+    file: paintings/s04_opens_her_hands.jpg
+    checked: [full frame, zoom box 460,560,900,1080 at 100%, ledger palette]
+    scores: {identity: 2, anatomy: 2, scale: 2, style: 2, colour: 1, continuity: 2, story: 2, composition: 2, clean: 2}
+    total: 17
+    max: 18
+    measured: {exposure_vs_s03_stops: -2.1}
+    verdict: fix
+    notes: Reads well and every anchor is present, but it sits 2.1 stops under s03, so the cut would jump.
+    fix:
+      problem: exposure 2.1 stops under its neighbour
+      op: exposure
+      params: {stops: 2.1}
+      why_not_repaint: exposure is a grade, not a painting problem; matched levels in post then even the rest
+      verify: ledger.py palette shows no exposure jump on s04_opens_her_hands_g.jpg
+      done: false
+
+  - shot: s05
+    file: paintings/s05_the_beam.jpg
+    checked: [full frame, ledger palette]
+    scores: {identity: 2, anatomy: 2, scale: 2, style: 2, colour: 2, continuity: 2, story: 2, composition: 2, clean: 2}
+    total: 18
+    max: 18
+    measured: {script_dE: 8}
+    verdict: accept
+    notes: The first gold in the film, on the hit; the beam lays a road of light on the sea and the boat heels in it. Same framing as s01.
+
+  - shot: s06
+    file: paintings/s06_dawn.jpg
+    checked: [full frame, ledger palette]
+    scores: {identity: 2, anatomy: 2, scale: 2, style: 2, colour: 2, continuity: 2, story: 2, composition: 2, clean: 2}
+    total: 18
+    max: 18
+    measured: {script_dE: 18}
+    verdict: accept
+    notes: >-
+      The s01 composition at dawn; the moths on the lamp glass are specks of ember, right for hand-sized moths on a lamp
+      room this far away. The sea in the lower third stays quiet for the last line.

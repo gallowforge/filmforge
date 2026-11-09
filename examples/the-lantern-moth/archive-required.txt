@@ -1,0 +1,12 @@
+# What the pre-production pack must hold before a credit is spent on paintings (archive.py --require).
+# One glob per line, relative to the production folder.
+production.yaml
+story-bible.md
+screenplay.md
+shotlist.yaml
+style-lock.yaml
+continuity.yaml
+score-brief.md
+intent.yaml
+qa.yaml
+prompts/s0*.md

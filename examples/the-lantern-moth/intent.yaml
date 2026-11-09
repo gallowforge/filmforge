@@ -1,0 +1,13 @@
+# The shape the story wants from the score: (seconds, level 0..1), the hits it must land, and its length.
+points:
+  - [0, 0.25]
+  - [11.5, 0.35]
+  - [12.5, 0.55]
+  - [23.3, 0.7]
+  - [23.6, 0.0]
+  - [24.0, 1.0]
+  - [35.0, 0.95]
+  - [39.5, 0.1]
+hits: [24.0]
+hit_tolerance_ms: 120
+length: 40

@@ -1,0 +1,52 @@
+# The Lantern Moth: continuity ledger. Who and what is in every shot, and the colours each scene may use.
+film: The Lantern Moth
+names: [Nell]                    # never in a prompt: prompts use the handles below
+
+characters:
+  girl:
+    handle: the girl in the red knitted hood
+    anchor: a nine-year-old girl, small for her age, in a red knitted hood, an oversized rust oilskin coat to her shins and black rubber boots
+  moth:
+    handle: the ember moth
+    anchor: a moth made of glowing embers, wings like cooling coals veined with thin gold, two black bead eyes
+    scale: its wingspan equals a child's open hand, never smaller than a palm and never larger than a face
+
+props:
+  lantern:
+    anchor: a small brass hand-lantern with one cracked green pane
+    holder: girl
+    from: s02
+    until: s04
+
+states:
+  - id: soot
+    who: girl
+    anchor: a smudge of soot on her left cheek
+    from: s02
+
+colour:
+  tolerance: 30                  # delta E from the scene's colour script
+  neighbour_jump: 24             # palette jump between two shots of the same scene
+  exposure_stops: 1.5            # exposure jump (stops of linear light) between two shots of the same scene
+  expected_jumps: [s06]          # deliberate light changes: s06 is a time cut from night to dawn
+  script:
+    S1: ["#0e131b", "#141b26", "#2a3546", "#4d5d70", "#8d9aa8"]
+    S2: ["#0e131b", "#1a2230", "#33404f", "#5b4a44", "#e8743b", "#ffb36b"]
+    S3: ["#f2c46d", "#e9a07a", "#6f8fa8", "#2b3442", "#141b26"]
+  forbid:
+    - id: no-gold
+      name: no warm gold before the lamp is lit
+      hue: [38, 58]
+      min_sat: 0.3                 # gold glows read dim against night: catch them at low saturation
+      min_val: 0.2
+      until: s05
+      max_fraction: 0.02
+      prompt: Absolutely no warm gold light anywhere in the frame.
+
+shots:
+  s01: {characters: [], props: [], states: []}
+  s02: {characters: [girl, moth], props: [lantern], states: [soot]}
+  s03: {characters: [girl, moth], props: [lantern], states: [soot]}
+  s04: {characters: [girl, moth], props: [lantern], states: [soot]}
+  s05: {characters: [], props: [], states: []}
+  s06: {characters: [moth], props: [], states: []}
