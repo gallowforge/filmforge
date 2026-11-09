@@ -1,6 +1,6 @@
 # The method
 
-Seven rules. Only two stages spend credits (the paintings and the score); the rest is post, measurement and paper. Each rule below says what it is, why it saves credits, what enforces it, and how it shows in [The Lantern Moth](../examples/the-lantern-moth/), the repository's worked example in text. Every tool output quoted here is what the tools print when run on that folder.
+Seven stages, each with its rule. Only two of them spend credits (the paintings and the score); the rest is post, measurement and paper. Each rule below says what it is, why it saves credits, what enforces it, and how it shows in [The Lantern Moth](../examples/the-lantern-moth/), the repository's worked example in text. Every tool output quoted here is what the tools print when run on that folder.
 
 ## 1. Story first
 
