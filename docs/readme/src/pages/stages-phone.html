@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="size" content="540">
+<link rel="stylesheet" href="page.css">
+<style>
+body { padding: 30px 34px 24px; }
+.t { font: 500 26px/1.08 "Newsreader", serif; letter-spacing: -0.015em; margin: 12px 0 6px; }
+.s { font: italic 400 15px/1.35 "Newsreader", serif; color: var(--mute); margin-bottom: 22px; }
+.st { position: relative; display: grid; grid-template-columns: 30px 34px 1fr auto; align-items: baseline; padding: 11px 0 12px; }
+.st::before { content: ""; position: absolute; left: 6px; top: 0; bottom: 0; width: 1px; background: var(--gold); opacity: 0.55; }
+.st:first-of-type::before { top: 20px; } .st:last-of-type::before { bottom: 0; }
+.st::after { content: ""; position: absolute; left: 0; bottom: -1px; width: 13px; height: 1.5px; background: var(--gold); opacity: 0.85; }
+.dot { width: 13px; height: 13px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid var(--gold); background: var(--bg); position: relative; top: 1px; }
+.st.here .dot { background: var(--gold); box-shadow: 0 0 0 4px var(--chip); }
+.n { font: 500 10.5px/1 "Geist Mono", monospace; color: var(--gold); }
+.name { font: 500 20px/1.1 "Newsreader", serif; }
+.name small { display: block; font: 400 11px/1.5 "Geist Mono", monospace; color: var(--mute); margin-top: 3px; }
+.sp { font: 500 9.8px/1 "Geist Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ember); display: inline-flex; gap: 6px; align-items: center; }
+.sp::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ember); }
+.sp.opt { color: var(--mute); } .sp.opt::before { background: none; border: 1px solid var(--mute); width: 5px; height: 5px; }
+</style></head><body>
+<div class="kick" style="text-transform:none;letter-spacing:0.02em">production.py</div>
+<div class="t">Nine stages, nine gates</div>
+<div class="s">No credit moves until every earlier gate has passed.</div>
+<div class="st"><div class="dot"></div><div class="n">01</div><div class="name">Brief<small>forge-director</small></div><div></div></div>
+<div class="st"><div class="dot"></div><div class="n">02</div><div class="name">Story<small>forge-story</small></div><div></div></div>
+<div class="st"><div class="dot"></div><div class="n">03</div><div class="name">Style<small>forge-style-lock</small></div><div class="sp">sheets</div></div>
+<div class="st"><div class="dot"></div><div class="n">04</div><div class="name">Score<small>forge-score</small></div><div class="sp">score</div></div>
+<div class="st here"><div class="dot"></div><div class="n">05</div><div class="name">Paint<small>forge-painter, forge-frame-qa</small></div><div class="sp">paintings</div></div>
+<div class="st"><div class="dot"></div><div class="n">06</div><div class="name">Motion<small>forge-motion</small></div><div class="sp opt">video, if planned</div></div>
+<div class="st"><div class="dot"></div><div class="n">07</div><div class="name">Sound<small>forge-sound</small></div><div></div></div>
+<div class="st"><div class="dot"></div><div class="n">08</div><div class="name">Deliver<small>forge-deliver</small></div><div></div></div>
+<div class="st"><div class="dot"></div><div class="n">09</div><div class="name">Retro<small>forge-director</small></div><div></div></div>
+</body></html>

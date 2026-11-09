@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="size" content="1240">
+<link rel="stylesheet" href="page.css">
+<style>
+body { padding: 30px 40px 30px; }
+.top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 30px; }
+.top .t { font: 500 23px/1 "Newsreader", serif; letter-spacing: -0.01em; }
+.top .t i { color: var(--mute); font-weight: 400; }
+.track { position: relative; display: grid; grid-template-columns: repeat(9, 1fr); }
+.track::before { content: ""; position: absolute; left: 6px; right: 15px; top: 6px; height: 1px; background: var(--gold); opacity: 0.55; }
+.st { position: relative; padding-right: 10px; }
+.dot { width: 13px; height: 13px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid var(--gold); background: var(--bg); position: relative; }
+.st.here .dot { background: var(--gold); box-shadow: 0 0 0 4px var(--chip); }
+.gate { position: absolute; right: 14px; top: -1px; width: 1.5px; height: 15px; background: var(--gold); opacity: 0.85; }
+.n { font: 500 10px/1 "Geist Mono", monospace; color: var(--gold); letter-spacing: 0.06em; margin: 16px 0 7px; }
+.name { font: 500 21px/1 "Newsreader", serif; letter-spacing: -0.01em; }
+.skill { font: 400 10.6px/1.4 "Geist Mono", monospace; color: var(--mute); margin-top: 8px; min-height: 30px; }
+.chk { font: 400 13.2px/1.3 "Newsreader", serif; font-style: italic; color: var(--soft); margin-top: 6px; }
+.sp { display: inline-flex; align-items: center; gap: 6px; margin-top: 9px; font: 500 9.6px/1 "Geist Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ember); }
+.sp::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ember); }
+.sp.opt { color: var(--mute); }
+.sp.opt::before { background: none; border: 1px solid var(--mute); width: 5px; height: 5px; }
+</style></head><body>
+<div class="top"><div class="t">Nine stages, nine gates <i>· no credit moves until every earlier gate has passed</i></div><div class="kick" style="text-transform:none;letter-spacing:0.02em">production.py</div></div>
+<div class="track">
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">01</div><div class="name">Brief</div><div class="skill">forge-director</div><div class="chk">credits approved</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">02</div><div class="name">Story</div><div class="skill">forge-story</div><div class="chk">the plan fits</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">03</div><div class="name">Style</div><div class="skill">forge-style-lock</div><div class="chk">the ledger checks</div><div class="sp">sheets</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">04</div><div class="name">Score</div><div class="skill">forge-score</div><div class="chk">every cut on the music</div><div class="sp">score</div></div>
+<div class="st here"><div class="dot"></div><div class="gate"></div><div class="n">05</div><div class="name">Paint</div><div class="skill">forge-painter<br>forge-frame-qa</div><div class="chk">every prompt lints</div><div class="sp">paintings</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">06</div><div class="name">Motion</div><div class="skill">forge-motion</div><div class="chk">preview watched</div><div class="sp opt">video, if planned</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">07</div><div class="name">Sound</div><div class="skill">forge-sound</div><div class="chk">the mix exists</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">08</div><div class="name">Deliver</div><div class="skill">forge-deliver</div><div class="chk">the archive verifies</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">09</div><div class="name">Retro</div><div class="skill">forge-director</div><div class="chk">lessons written</div></div>
+</div>
+</body></html>

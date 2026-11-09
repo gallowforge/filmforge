@@ -3,9 +3,10 @@
 
 It fails when:
   - a relative link or image in any Markdown file does not resolve, or a #heading anchor does not exist
-  - an image referenced by a README visual's HTML source is missing
-  - a README visual is missing its wide or phone render, or the README does not use both
-  - an image in docs/img or docs/readme is not used anywhere
+  - a file a README visual's page source refers to is missing, or the visual generator is incomplete
+  - a README visual is missing one of its four renders (dark and light, wide and phone), or the README
+    does not use all four
+  - an image in docs/readme is not used anywhere
   - a template is missing one of its required sections
   - a size budget is broken (per file, docs/readme, whole repository)
   - a text file contains a machine path, a private network address or right-to-left script
@@ -23,11 +24,16 @@ os.chdir(ROOT)
 MAX_FILE = 2_000_000          # bytes, any single file
 MAX_README_VISUALS = 8_000_000
 MAX_REPO = 25_000_000
-TEXT_EXT = {'.md', '.html', '.css', '.js', '.py', '.sh', '.yml', '.yaml', '.json', '.csv', '.txt'}
+TEXT_EXT = {'.md', '.html', '.css', '.js', '.cjs', '.mjs', '.py', '.sh', '.yml', '.yaml', '.json', '.csv', '.txt'}
 
 TEMPLATES = {
     'templates/delivery-checklist.md': ['The deliverables matrix', 'Checks before calling it delivered', 'Archive'],
 }
+
+# GitHub shows a link ending in one of these only in that colour mode; they are not heading anchors
+THEME_FRAGMENTS = {'gh-dark-mode-only', 'gh-light-mode-only'}
+VARIANTS = ('-dark', '-light', '-dark-phone', '-light-phone')
+GENERATOR = ['build.sh', 'terminals.py', 'capture.cjs', 'render.cjs', 'scene.html', 'scene.js', 'layouts.js']
 
 errors = []
 
@@ -82,12 +88,21 @@ links_checked = anchors_checked = 0
 LINK_RE = re.compile(r'!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?(?:\s+"[^"]*")?\s*\)|(?:src|href|srcset)="([^"]+)"')
 for md in md_files:
     text = strip_code(md.read_text(encoding='utf-8'))
+    urls = []
     for m in LINK_RE.finditer(text):
-        url = m.group(1) or m.group(2)
+        if m.group(1):
+            urls.append(m.group(1))
+        elif m.group(0).startswith('srcset'):
+            urls += [part.split()[0] for part in m.group(2).split(',') if part.strip()]
+        else:
+            urls.append(m.group(2))
+    for url in urls:
         if re.match(r'^[a-z]+:', url) or url.startswith('//'):
             continue
         links_checked += 1
         target, _, frag = url.partition('#')
+        if frag in THEME_FRAGMENTS:
+            frag = ''
         dest = (md.parent / target).resolve() if target else (ROOT / md).resolve()
         if not dest.exists():
             err(f'{md}: link to missing file {url}')
@@ -101,31 +116,28 @@ for md in md_files:
             elif frag not in anchors_of(dest):
                 err(f'{md}: missing anchor #{frag} in {dest.relative_to(ROOT)}')
 
-# 2. README visual sources and renders
+# 2. README visuals: the generator, its page sources, and four renders of every visual
 src_dir = Path('docs/readme/src')
 readme = Path('README.md').read_text(encoding='utf-8')
-visuals = sorted(p.stem for p in src_dir.glob('*.html'))
-for name in visuals:
-    html = (src_dir / f'{name}.html').read_text(encoding='utf-8')
+for name in GENERATOR:
+    if not (src_dir / name).exists():
+        err(f'{src_dir}/{name} is missing (the README visuals could not be rebuilt)')
+for page in sorted(src_dir.glob('pages/*.html')):
+    html = page.read_text(encoding='utf-8')
     for ref in re.findall(r'(?:src|href)="([^"]+)"|url\(([^)]+)\)', html):
         ref = (ref[0] or ref[1]).strip('\'"')
         if re.match(r'^[a-z]+:', ref) or ref.startswith('#') or '${' in ref:
             continue
-        dest = (src_dir / ref).resolve()
-        if not dest.exists():
-            err(f'{src_dir}/{name}.html: missing {ref}')
-        else:
-            used_images.add(dest)
-    if name == 'social':
-        if not Path('docs/readme/social.png').exists():
-            err('docs/readme/social.png is missing (run python3 scripts/readme-visuals.py pages social)')
-        used_images.add((ROOT / 'docs/readme/social.png').resolve())
-        continue
-    for suffix in ('', '-mobile'):
-        out = Path(f'docs/readme/{name}{suffix}.webp')
+        if not (page.parent / ref).exists():
+            err(f'{page}: missing {ref}')
+used_in_readme = set(re.findall(r'docs/readme/([\w-]+)\.webp', readme))
+visuals = sorted({re.sub(r'-(dark|light)(-phone)?$', '', n) for n in used_in_readme})
+for name in visuals:
+    for v in VARIANTS:
+        out = Path(f'docs/readme/{name}{v}.webp')
         if not out.exists():
-            err(f'{out} is missing (run python3 scripts/readme-visuals.py pages {name})')
-        elif f'docs/readme/{name}{suffix}.webp' not in readme:
+            err(f'{out} is missing (run docs/readme/src/build.sh)')
+        elif f'{name}{v}' not in used_in_readme:
             err(f'README.md does not use {out}')
 
 # 3. No unused images

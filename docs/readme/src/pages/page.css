@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=block");
+/* The documents: ink-dark pages in the dark scheme, warm paper in the light one. The background is the
+   key colour the glass lifts away, so the words float in the glass. */
+:root { --bg: #f7f4ee; --ink: #1d1a16; --soft: #4a443c; --mute: #7a7166; --gold: #96651c; --ember: #bd4f2a; --rule: rgba(60, 40, 20, 0.15); --chip: rgba(150, 101, 28, 0.09); }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #100e0c; --ink: #efe7da; --soft: #c9c0b3; --mute: #92897d; --gold: #e2b062; --ember: #ff8a64; --rule: rgba(239, 231, 218, 0.13); --chip: rgba(226, 176, 98, 0.10); }
+}
+html, body { margin: 0; background: var(--bg); }
+body { box-sizing: border-box; color: var(--ink); -webkit-font-smoothing: antialiased; overflow: hidden;
+  font: 400 15px/1.5 "Newsreader", Georgia, serif; font-optical-sizing: auto; }
+.kick { font: 500 10.5px/1 "Geist Mono", monospace; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+.mono { font-family: "Geist Mono", monospace; }
+h1 { font: 500 34px/1.02 "Newsreader", serif; letter-spacing: -0.02em; margin: 0; }
+h1 i { font-style: italic; font-weight: 400; color: var(--soft); }
+.rule { height: 1px; background: var(--rule); }

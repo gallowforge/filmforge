@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=block");
+/* A terminal is dark in both themes. Its background is the key colour the glass lifts away. */
+html, body { margin: 0; background: #0b0a09; }
+body { box-sizing: border-box; padding: 24px 28px 26px; font: 400 13px/1.68 "Geist Mono", monospace; color: #b9b0a4;
+  -webkit-font-smoothing: antialiased; font-variant-ligatures: none; }
+body.yaml { padding: 22px 26px 24px; font-size: 13.4px; line-height: 1.7; }
+.l { white-space: pre; overflow: hidden; }
+.wrap .l { white-space: pre-wrap; padding-left: 8ch; text-indent: -8ch; }
+.wrap .l.cmdline { padding-left: 0; text-indent: 0; }
+.cmdline { margin-bottom: 2px; }
+.l[data-lift] { margin: 12px 0; }   /* room around the line a scene lifts out, so its neighbours stay readable */
+.p { color: #7d746a; }
+.c, .b { color: #f2ebe1; }
+.ok { color: #93d6a4; font-weight: 500; }
+.err { color: #ff8566; font-weight: 500; }
+.acc { color: #e7b45e; font-weight: 500; }
+.d { color: #776e64; }
+.k { color: #e7b45e; }
+.gap { height: 12px; }
+.cur { display: inline-block; width: 8px; height: 15px; background: #b9b0a4; vertical-align: -3px; }
