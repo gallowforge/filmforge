@@ -1,0 +1,12 @@
+# markdownlint-cli2 settings for filmforge
+config:
+  default: true
+  MD013: false              # long lines are fine in prose and tables
+  MD033: false              # the README uses <picture>, <details> and centred rows
+  MD041: false              # the README opens with the hero image, not a heading
+  MD024:
+    siblings_only: true
+globs:
+  - "**/*.md"
+ignores:
+  - "node_modules/**"

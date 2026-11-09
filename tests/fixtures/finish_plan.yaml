@@ -1,0 +1,29 @@
+# A finish plan of the kind a painted film reaches near the end: 13 new paintings and a score in two cues, split at a
+# silence so one bad cue never costs the other. The plan's own total was 66.26 credits against 70.71 available,
+# leaving about 4.4 in reserve. budget.py must reproduce those numbers exactly.
+title: A finish plan
+fps: 24
+scenes:
+  - {id: V, name: The Storm}
+  - {id: VI, name: The Calm}
+  - {id: VII, name: The Climb}
+  - {id: VIII, name: The Summit}
+  - {id: IX, name: Home}
+characters: [keeper, ferryman, child, dog]
+assets:
+  - {id: cue1, kind: music, seconds: 95.24, note: "the first half, up to the silence"}
+  - {id: cue2, kind: music, seconds: 115.17, note: "from the silence to the end"}
+shots:
+  - {id: s23, scene: V, dur: 5.0, kind: painting, beat: the storm reaches the harbour}
+  - {id: s25, scene: V, dur: 4.0, kind: painting, beat: the ferry turns back}
+  - {id: s26, scene: V, dur: 5.0, kind: painting, beat: a rope across the quay}
+  - {id: s27, scene: V, dur: 4.5, kind: painting, beat: the town pulls together}
+  - {id: s28, scene: VI, dur: 7.0, kind: painting, beat: the harbour after the storm}
+  - {id: s29, scene: VI, dur: 6.0, kind: painting, beat: a child laughs}
+  - {id: s31, scene: VII, dur: 5.0, kind: painting, beat: the warehouse burns}
+  - {id: s34, scene: VIII, dur: 7.0, kind: painting, beat: the empty bell tower}
+  - {id: s39, scene: VIII, dur: 6.0, kind: painting, beat: the keeper understands}
+  - {id: s40, scene: IX, dur: 6.0, kind: painting, beat: they rise the town pulls together}
+  - {id: s41, scene: IX, dur: 4.0, kind: painting, beat: lanterns on the water}
+  - {id: s42, scene: IX, dur: 6.0, kind: painting, beat: the first clear sky}
+  - {id: s43, scene: IX, dur: 6.0, kind: painting, beat: the last image}

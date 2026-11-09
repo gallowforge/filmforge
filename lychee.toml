@@ -1,0 +1,8 @@
+# lychee settings: check every external link in the Markdown, retry flaky hosts
+max_retries = 4
+retry_wait_time = 5
+timeout = 30
+exclude = [
+  "^https://github\\.com/gallowforge/filmforge/actions",
+  "^https://github\\.com/gallowforge/filmforge/releases",
+]
