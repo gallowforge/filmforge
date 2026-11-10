@@ -546,11 +546,13 @@ let windows = [], motesFar, motesNear;
 async function init() {
   canvas.style.width = CW + 'px'; canvas.style.height = CH + 'px';
   const specs = LAYOUT.windows(NIGHT);
-  const texes = await Promise.all(specs.map(s => s.tex ? loadTex(s.tex) : Promise.resolve(null)));
+  // a window may show a sequence of captures of one page, a frame of the loop each (the stage rail of the hero)
+  const seqs = await Promise.all(specs.map(s => s.seq ? Promise.all(s.seq.map(loadTex)) : Promise.resolve(null)));
+  const texes = await Promise.all(specs.map((s, i) => seqs[i] ? seqs[i][0] : s.tex ? loadTex(s.tex) : Promise.resolve(null)));
   // boxes of the elements marked data-lift in each page, measured when the pages were captured (texture px)
   const BOX = await fetch('/shots/boxes.json').then(r => r.json()).catch(() => ({}));
   const made = [];
-  specs.forEach((s, i) => { if (s.parent === undefined) made[i] = makeWindow(s, texes[i]); });
+  specs.forEach((s, i) => { if (s.parent === undefined) { made[i] = makeWindow(s, texes[i]); made[i].seq = seqs[i]; } });
   specs.forEach((s, i) => {
     if (s.parent === undefined) return;
     if (s.box) {   // lift an element out of its page by name instead of by hand-measured pixels
@@ -576,6 +578,11 @@ async function init() {
 }
 
 function renderAt(phase) {
+  for (const w of windows) if (w.seq) w.mat.uniforms.tContent.value = w.seq[Math.round(phase * w.seq.length) % w.seq.length];
+  // `hold` keeps the glass, the light and the dust still, so a loop moves only what its sequence moves: 1 lets
+  // the lifted line float, 2 rests it too
+  const tha = (LAYOUT.hold === 2 ? 0 : phase) * Math.PI * 2;
+  if (LAYOUT.hold) phase = 0;
   const th = phase * Math.PI * 2;
   const cam = LAYOUT.cam || [12, 5];
   camera.position.set(Math.sin(th) * cam[0], Math.sin(th * 2) * cam[1] * 0.5 + Math.cos(th) * cam[1] * 0.5, D);
@@ -611,7 +618,7 @@ function renderAt(phase) {
   const M = new THREE.Matrix4(), R = new THREE.Matrix4();
   for (const w of windows) {
     const s = w.spec; if (!s.parentRef) continue;
-    const lift = (s.lift ?? 60) + Math.sin(th + (s.breathe ? s.breathe[1] : 0.4) * 6.283) * (s.breathe ? s.breathe[0] : 8);
+    const lift = (s.lift ?? 60) + Math.sin(tha + (s.breathe ? s.breathe[1] : 0.4) * 6.283) * (s.breathe ? s.breathe[0] : 8);
     const r = s.rot || [0, 0, 0];
     M.copy(s.parentRef.mesh.matrixWorld).multiply(R.makeTranslation(s.local[0] + (s.shift ? s.shift[0] : 0), s.local[1] + (s.shift ? s.shift[1] : 0), lift));
     M.multiply(R.makeRotationFromEuler(new THREE.Euler(THREE.MathUtils.degToRad(r[0]), THREE.MathUtils.degToRad(r[1]), THREE.MathUtils.degToRad(r[2] || 0))));

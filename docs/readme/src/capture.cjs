@@ -4,6 +4,8 @@
 // docs/readme/build/pages/*.html (written by terminals.py from the tools' real output).
 // A page sets its size with <meta name="size" content="W" or "WxH">. Elements marked data-lift="id"
 // are measured into build/shots/boxes.json, so a scene can lift them out of the page by name.
+// A page that moves says so with <meta name="frames" content="N"> and draws frame i of its loop in
+// window.frame(i, N); each frame is photographed as <page>-<scheme>-NN.png for the hero loop.
 const { chromium } = require('playwright');
 const path = require('path'), fs = require('fs'), { pathToFileURL } = require('url');
 const SRC = __dirname, BUILD = path.resolve(SRC, '..', 'build'), SHOTS = path.join(BUILD, 'shots');
@@ -34,6 +36,11 @@ const DSF = 2;
         const r = e.getBoundingClientRect(); return [e.dataset.lift, [r.x * k, r.y * k, r.width * k, r.height * k].map(Math.round)];
       })), DSF);
       await page.screenshot({ path: path.join(SHOTS, `${name}-${scheme}.png`) });
+      const fr = html.match(/<meta name="frames" content="(\d+)">/);
+      for (let i = 0; fr && i < +fr[1]; i++) {
+        await page.evaluate(([i, n]) => window.frame(i, n), [i, +fr[1]]);
+        await page.screenshot({ path: path.join(SHOTS, `${name}-${scheme}-${String(i).padStart(2, '0')}.png`) });
+      }
       console.log(`${name}-${scheme}`, `${w}x${h}`);
     }
     await ctx.close();

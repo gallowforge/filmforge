@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="size" content="900"><meta name="frames" content="96">
+<link rel="stylesheet" href="page.css">
+<style>
+/* The nine stages as a rail for the hero: a film goes down it gate by gate. The names never move;
+   the marker does. window.frame(i, n) draws frame i of an n-frame loop, and capture.cjs photographs each. */
+body { padding: 16px 30px 13px; }
+.track { position: relative; display: grid; grid-template-columns: repeat(9, 1fr); --a: 1; --x: 0px; --tail: 0px; }
+.line, .done { position: absolute; left: 6px; top: 6px; height: 1px; background: var(--gold); }
+.line { right: 15px; opacity: 0.38; }
+.done { width: calc(var(--x) + var(--tail)); height: 1.5px; top: 5.75px; opacity: calc(0.95 * var(--a)); }
+.st { position: relative; padding-right: 10px; --on: 0; --fill: 0; --lit: 0; }
+.dot { width: 13px; height: 13px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid var(--gold); background: var(--bg); position: relative; }
+.dot::after { content: ""; position: absolute; inset: -1.5px; border-radius: 50%; background: var(--gold); opacity: calc(var(--fill) * var(--a)); }
+.gate { position: absolute; right: 14px; top: -1px; width: 1.5px; height: 15px; background: var(--gold); opacity: calc(0.34 + 0.6 * var(--lit) * var(--a)); }
+.mk { position: absolute; left: var(--x); top: 0; width: 13px; height: 13px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4.5px var(--chip), 0 0 0 5.5px var(--rule); opacity: var(--a); }
+.n { font: 500 10.5px/1 "Geist Mono", monospace; color: var(--gold); letter-spacing: 0.06em; margin: 15px 0 7px; opacity: calc(0.62 + 0.38 * var(--on) * var(--a)); }
+.name { font: 500 22px/1 "Newsreader", serif; letter-spacing: -0.01em; color: color-mix(in srgb, var(--ink) calc(var(--on) * var(--a) * 100%), var(--mute)); }
+</style></head><body>
+<div class="track">
+<div class="line"></div><div class="done"></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">01</div><div class="name">Brief</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">02</div><div class="name">Story</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">03</div><div class="name">Style</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">04</div><div class="name">Score</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">05</div><div class="name">Paint</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">06</div><div class="name">Motion</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">07</div><div class="name">Sound</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">08</div><div class="name">Deliver</div></div>
+<div class="st"><div class="dot"></div><div class="gate"></div><div class="n">09</div><div class="name">Retro</div></div>
+<div class="mk"></div>
+</div>
+<script>
+// The loop starts on the finished film and holds it to be read, so its first frame is the whole picture: every
+// gate passed. Then the rail clears, the marker returns to the first stage and goes down the rail a stage at a
+// time, easing in and out of each; its last step lands on the first frame, so the loop closes on a move and
+// not on a cut. A state is { m: where the marker is, in stages; tail: how far the line has run on from the
+// last stage to its gate; a: how much of the progress shows }.
+const T = document.querySelector('.track'), S = [...document.querySelectorAll('.st')];
+const ease = (t) => t * t * (3 - 2 * t), unit = (v) => Math.max(0, Math.min(1, v));
+function timeline(n) {
+  const F = [], put = (k, s) => { for (let i = 0; i < k; i++) F.push(s); };
+  const done = { m: S.length - 1, tail: 1, a: 1 };
+  for (let i = 1; i < 5; i++) F.push({ ...done, a: 1 - ease(i / 5) });
+  for (let i = 0; i < 3; i++) F.push({ m: 0, tail: 0, a: ease(i / 3) });
+  put(3, { m: 0, tail: 0, a: 1 });
+  for (let s = 1; s < S.length; s++) {
+    for (let i = 1; i <= 5; i++) F.push({ m: s - 1 + ease(i / 5), tail: 0, a: 1 });
+    put(2, { m: s, tail: 0, a: 1 });
+  }
+  for (let i = 1; i < 3; i++) F.push({ m: S.length - 1, tail: ease(i / 3), a: 1 });
+  const hold = n - F.length;
+  if (hold < 24) throw new Error(`track: ${F.length} frames of action leave no 2 second hold in ${n}`);
+  return [...Array(hold).fill(done), ...F];
+}
+window.frame = (i, n) => {
+  const s = timeline(n)[i % n], col = S[1].offsetLeft - S[0].offsetLeft, gate = (col - 14 - 6.5) / col;
+  T.style.setProperty('--a', s.a);
+  T.style.setProperty('--x', s.m * col + 'px');
+  T.style.setProperty('--tail', s.tail * (col - 14 - 6.5) + 'px');
+  S.forEach((el, k) => {
+    el.style.setProperty('--on', unit((s.m - (k - 0.55)) / 0.5));       // the name comes up as the marker draws near
+    el.style.setProperty('--fill', unit((s.m - (k - 0.08)) / 0.08));
+    el.style.setProperty('--lit', k < S.length - 1 ? unit((s.m - (k + gate - 0.12)) / 0.12) : s.tail);
+  });
+};
+window.frame(0, 96);
+</script>
+</body></html>

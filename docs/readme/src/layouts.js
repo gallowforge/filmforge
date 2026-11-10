@@ -143,6 +143,9 @@ const HERO_NIGHT = merge(NIGHT, { env: {
   glows: [[0.50, 0.30, 0.42, 0.12, '#8a4620'], [0.5, 1.15, 0.65, 0.09, '#b09062'], [0.5, -0.15, 0.6, 0.05, '#5a3a22']],
   thread: [0.50, 0.012, 0.0008, 0.9] } });
 const HERO_DAY = merge(DAY, { env: { sun: [0.10, 0, -0.80, 0.95], thread: [0.50, 0.012, 0.0006, 0.8] } });
+const HERO_FRAMES = 96;                            // the hero loop, 8 s at 12 fps: as many frames as pages/track.html draws
+const HERO_LOOP = { frames: HERO_FRAMES, fps: 12 };
+const RAIL = (n) => Array.from({ length: HERO_FRAMES }, (_, i) => `track-${n ? 'dark' : 'light'}-${String(i).padStart(2, '0')}.png`);
 const heroWindows = (n, P) => [
   { tex: tx('term-budget', n), key: TERM, keyAmt: n ? 0.62 : 0.15, fog: n ? 0.58 : 0.38, lod: 1.2, defocus: 2.5, breathe: [16, 0.15], bezel: 8, glowColor: '#2e2010' },
   { tex: tx('term-status', n), key: TERM, keyAmt: n ? 0.62 : 0.15, fog: n ? 0.58 : 0.38, lod: 1.2, defocus: 2.5, breathe: [12, 0.8], bezel: 8, glowColor: '#2e2010' },
@@ -151,6 +154,8 @@ const heroWindows = (n, P) => [
   { tex: tx('method', n), key: DOC(n), keyAmt: n ? 0.55 : 0.75, breathe: [10, 0.6], bezel: 11, glow: 0.6 },
   { tex: tx('term-lint', n), key: TERM, keyAmt: n ? 0.6 : 0.15, breathe: [9, 0.3], bezel: 9, glowColor: '#3a1c12' },
   { parent: 4, box: 'lint', pad: [10, 4], lift: 110, align: 0.6, breathe: [12, 0.85], bezel: 8, radius: 12, key: DOC(n), keyAmt: n ? 0.6 : 0.85, ...LIFT(n), glow: 0.25, glowColor: '#5a3d16' },
+  // the stage rail: the one thing in the hero that moves. Its frames are the captures of pages/track.html
+  { seq: RAIL(n), key: DOC(n), keyAmt: n ? 0.55 : 0.75, bar: false, bezel: 6, radius: 13, breathe: [6, 0.3], glow: 0.3, glowColor: '#5a3d16' },
 ].map((w, i) => ({ ...w, ...(P[i] || {}) }));
 
 // ---------- the numbers band and the stages diagram ----------
@@ -158,15 +163,17 @@ const NUMBERS = [['9', 'Claude Code skills,<br>one per stage'], ['7', 'tools tha
 
 export const LAYOUTS = {
   hero: {
-    css: [840, 560], fade: [40, 40, 30, 46], cam: [3, 1.2], motion: 0.2, pool: [0.5, 0.42, 0.62, 0.62], threadSpan: [0.0, 0.16, 0.84, 1.0],
+    css: [840, 560], fade: [40, 40, 30, 46], cam: [3, 1.2], motion: 0.2, hold: 1, loop: HERO_LOOP, pool: [0.5, 0.42, 0.62, 0.62], threadSpan: [0.0, 0.16, 0.84, 1.0],
     night: HERO_NIGHT, day: HERO_DAY,
     windows: (n) => heroWindows(n, [
       { x: 104, y: 204, w: 112, z: -820, rot: [10, 18, 0] },
       { x: 738, y: 204, w: 108, z: -820, rot: [10, -18, 0] },
       { x: 128, y: 330, w: 196, z: -320, rot: [2, 32, 0] },
       { x: 716, y: 316, w: 206, z: -320, rot: [2, -32, 0] },
-      { x: 404, y: 338, w: 292, z: 40, rot: [3, 0, 0] },
+      { x: 404, y: 344, w: 280, z: 40, rot: [3, 0, 0] },
       { x: 648, y: 452, w: 262, z: 170, rot: [0, -14, 0] },
+      ,
+      { x: 420, y: 161, w: 322, z: 20, rot: [5, 0, 0] },
     ]),
     type: [
       T('name', 'filmforge', 420, 34, { fontSize: '60px' }, 'center'),
@@ -174,7 +181,7 @@ export const LAYOUTS = {
     ],
   },
   'hero-phone': {
-    css: [381, 640], dpr: 1080 / 381, fade: [16, 16, 24, 30], cam: [7, 3], motion: 0.75, pool: [0.5, 0.40, 0.75, 0.55], threadSpan: [0.0, 0.2, 0.8, 1.0],
+    css: [381, 640], dpr: 1080 / 381, fade: [16, 16, 24, 30], cam: [7, 3], motion: 0.75, hold: 2, loop: HERO_LOOP, pool: [0.5, 0.40, 0.75, 0.55], threadSpan: [0.0, 0.2, 0.8, 1.0],
     night: merge(HERO_NIGHT, { env: { thread: [0.42, 0.010, 0.0007, 0.9] } }), day: merge(HERO_DAY, { env: { thread: [0.42, 0.010, 0.0005, 0.8] } }),
     windows: (n) => heroWindows(n, [
       { x: 90, y: 228, w: 92, z: -820, rot: [10, 18, 0] },
@@ -183,6 +190,8 @@ export const LAYOUTS = {
       { x: 314, y: 306, w: 136, z: -320, rot: [2, -32, 0] },
       { x: 182, y: 388, w: 262, z: 40, rot: [3, 0, 0] },
       { x: 270, y: 512, w: 196, z: 170, rot: [0, -14, 0] },
+      ,
+      { x: 190.5, y: 190, w: 316, z: 20, rot: [5, 0, 0] },
     ]),
     type: [
       T('name', 'filmforge', 190.5, 34, { fontSize: '52px' }, 'center'),
