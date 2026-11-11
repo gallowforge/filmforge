@@ -15,6 +15,8 @@ __pycache__/
 *.jpg
 *.jpeg
 *.webp
-# except the README's Glass images: the repository's own pages and the tools' real output, rendered
+# except the README's Glass images: the repository's own pages and the tools' real output, rendered,
+# and the social preview card made by the same generator
 !docs/readme/*.webp
+!docs/readme/social.png
 docs/readme/build/

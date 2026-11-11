@@ -6,7 +6,8 @@ It fails when:
   - a file a README visual's page source refers to is missing, or the visual generator is incomplete
   - a README visual is missing one of its four renders (dark and light, wide and phone), or the README
     does not use all four
-  - an image in docs/readme is not used anywhere
+  - an image in docs/readme is not used anywhere (the social preview card is the one exception: it is
+    uploaded in the repository settings and linked from no page)
   - a template is missing one of its required sections
   - a size budget is broken (per file, docs/readme, whole repository)
   - a text file contains a machine path, a private network address or right-to-left script
@@ -34,6 +35,7 @@ TEMPLATES = {
 THEME_FRAGMENTS = {'gh-dark-mode-only', 'gh-light-mode-only'}
 VARIANTS = ('-dark', '-light', '-dark-phone', '-light-phone')
 GENERATOR = ['build.sh', 'terminals.py', 'capture.cjs', 'render.cjs', 'scene.html', 'scene.js', 'layouts.js']
+SOCIAL = Path('docs/readme/social.png')      # GitHub's social preview: 1280 x 640, set in Settings, linked from no page
 
 errors = []
 
@@ -143,8 +145,10 @@ for name in visuals:
 # 3. No unused images
 for folder in ('docs/readme',):
     for p in Path(folder).glob('*'):
-        if p.suffix in {'.webp', '.png', '.jpg'} and p.resolve() not in used_images:
+        if p.suffix in {'.webp', '.png', '.jpg'} and p.resolve() not in used_images and p != SOCIAL:
             err(f'{p} is not used by any page or visual')
+if not SOCIAL.exists():
+    err(f'{SOCIAL} is missing (run ONLY=social docs/readme/src/build.sh)')
 
 # 4. Templates
 for path, sections in TEMPLATES.items():

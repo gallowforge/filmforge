@@ -230,5 +230,24 @@ export const LAYOUTS = {
   prompt: panel(PROMPT), 'prompt-phone': panelPhone(PROMPT),
   lint: panel(LINT), 'lint-phone': panelPhone(LINT),
   shots: panel(SHOTS), 'shots-phone': panelPhone(SHOTS),
+  // The social preview (Settings > Social preview), 1280 x 640, dark only: the copy at the left and, at the
+  // right, the hero's page with its lifted rule and one terminal behind it. The same card as aih,
+  // agent-guardrails and bwtidy, in this repository's light.
+  social: {
+    css: [640, 320], fade: [26, 26, 22, 26], cam: [0, 0], motion: 0, pool: [0.70, 0.52, 0.40, 0.75], threadSpan: [0.44, 0.58, 0.92, 1.0],
+    night: merge(NIGHT, { env: { glows: [[0.70, 0.52, 0.42, 0.09, '#8a4620'], [0.72, 1.1, 0.6, 0.07, '#b09062']] } }), day: DAY,
+    windows: (n) => [
+      { tex: tx('term-shotlist', n), key: TERM, keyAmt: n ? 0.6 : 0.15, fog: n ? 0.42 : 0.30, lod: 0.8, defocus: 1.6, breathe: [14, 0.7], bezel: 8, glowColor: '#2e2010',
+        x: 590, y: 150, w: 170, z: -320, rot: [3, -26, 0] },
+      { tex: tx('method', n), key: DOC(n), keyAmt: n ? 0.55 : 0.75, breathe: [10, 0.6], bezel: 11, glow: 0.6, x: 456, y: 158, w: 212, z: 0, rot: [2, -12, 0] },
+      { parent: 1, box: 'lint', pad: [10, 4], lift: 70, shift: [-10, 0], breathe: [12, 0.85], bezel: 8, radius: 12, key: DOC(n), keyAmt: n ? 0.6 : 0.85, ...LIFT(n), glow: 0.25, glowColor: '#5a3d16' },
+    ],
+    type: [
+      T('kick', 'Method · Python', 40, 104, { fontSize: '10px' }),
+      T('name', 'filmforge', 38, 122, { fontSize: '46px' }),
+      T('line', 'The technique for painted films made with AI, written down and checked at every gate.', 40, 182,
+        { fontSize: '15.5px', whiteSpace: 'normal', width: '236px', lineHeight: '1.38' }),
+    ],
+  },
 };
 for (const k in LAYOUTS) LAYOUTS[k].dpr = LAYOUTS[k].dpr || 2;
