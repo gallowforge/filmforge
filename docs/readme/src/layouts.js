@@ -113,7 +113,7 @@ const LINT = {
   facts: [['6', 'prompts checked'], ['1', 'error: a lost scale lock'], ['FAIL', 'the paint gate, until it passes']],
   win: (n, ph) => {
     const P = ph ? { a: { x: 170, y: 350, w: 320, z: -60, rot: [2, -10, 0] }, b: { x: 236, y: 448, w: 270, z: 70, rot: [0, -12, 0] } }
-      : { a: { x: 556, y: 206, w: 380, z: -80, rot: [2, -18, 0] }, b: { x: 664, y: 318, w: 300, z: 60, rot: [0, -14, 0] } };
+      : { a: { x: 556, y: 206, w: 380, z: -80, rot: [2, -18, 0] }, b: { x: 650, y: 318, w: 300, z: 60, rot: [0, -14, 0] } };
     return [
       { tex: tx('term-gate', n), ...P.a, key: TERM, keyAmt: n ? 0.6 : 0.12, breathe: [8, 0.0], bezel: 10, glowColor: '#2e2010' },
       { tex: tx('term-lint', n), ...P.b, key: TERM, keyAmt: n ? 0.6 : 0.12, breathe: [8, 0.45], bezel: 9, glowColor: '#3a1c12' },
@@ -184,14 +184,14 @@ export const LAYOUTS = {
     css: [381, 640], dpr: 1080 / 381, fade: [16, 16, 24, 30], cam: [7, 3], motion: 0.75, hold: 2, loop: HERO_LOOP, pool: [0.5, 0.40, 0.75, 0.55], threadSpan: [0.0, 0.2, 0.8, 1.0],
     night: merge(HERO_NIGHT, { env: { thread: [0.42, 0.010, 0.0007, 0.9] } }), day: merge(HERO_DAY, { env: { thread: [0.42, 0.010, 0.0005, 0.8] } }),
     windows: (n) => heroWindows(n, [
-      { x: 90, y: 228, w: 92, z: -820, rot: [10, 18, 0] },
-      { x: 294, y: 226, w: 90, z: -820, rot: [10, -18, 0] },
+      { x: 90, y: 228, w: 92, z: -820, rot: [10, 18, 0], ...(n ? {} : { fog: 0.72 }) },
+      { x: 294, y: 226, w: 90, z: -820, rot: [10, -18, 0], ...(n ? {} : { fog: 0.72 }) },
       { x: 70, y: 318, w: 136, z: -320, rot: [2, 32, 0] },
-      { x: 314, y: 306, w: 136, z: -320, rot: [2, -32, 0] },
-      { x: 182, y: 388, w: 262, z: 40, rot: [3, 0, 0] },
+      { x: 334, y: 306, w: 136, z: -320, rot: [2, -32, 0] },
+      { x: 182, y: 388, w: 262, z: 40, rot: [3, 0, 0], ...(n ? {} : { keyAmt: 0.1 }) },
       { x: 270, y: 512, w: 196, z: 170, rot: [0, -14, 0] },
       ,
-      { x: 190.5, y: 190, w: 316, z: 20, rot: [5, 0, 0] },
+      { x: 190.5, y: 190, w: 316, z: 20, rot: [5, 0, 0], ...(n ? {} : { keyAmt: 0.2 }) },
     ]),
     type: [
       T('name', 'filmforge', 190.5, 34, { fontSize: '52px' }, 'center'),
